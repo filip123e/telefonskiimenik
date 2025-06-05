@@ -3,40 +3,42 @@
 #include <string.h>
 #include <errno.h>
 #include "imenik.h"
-
+//6
+//8
 Kontakt* kontakti = NULL;
 size_t brojKontakata = 0;
 
 void ucitajIzDatoteke(void) {
-    FILE* f = fopen(DATOTEKA, "r");
+    FILE* f = fopen(DATOTEKA, "r");//19
     if (!f) {
-        perror("Greska pri otvaranju datoteke");
+        perror("Greska pri otvaranju datoteke");//22
         return;
     }
 
     Kontakt k;
     while (fscanf(f, "%d;%49[^;];%49[^;];%19[^;];%49[^\n]\n", &k.id, k.ime, k.prezime, k.broj, k.email) == 5) {
+        //16,17
         Kontakt* temp = realloc(kontakti, (brojKontakata + 1) * sizeof(Kontakt));
         if (!temp) {
-            perror("Greska pri realokaciji memorije");
+            perror("Greska pri realokaciji memorije");//22
             fclose(f);
             return;
         }
         kontakti = temp;
         kontakti[brojKontakata++] = k;
     }
-    fclose(f);
+    fclose(f);//19
 }
 
 void spremiUDatoteku(void) {
-    FILE* f = fopen(DATOTEKA, "w");
+    FILE* f = fopen(DATOTEKA, "w");//19
     if (!f) {
-        perror("Greska pri pisanju datoteke");
+        perror("Greska pri pisanju datoteke");//22
         return;
     }
     for (size_t i = 0; i < brojKontakata; ++i)
         fprintf(f, "%d;%s;%s;%s;%s\n", kontakti[i].id, kontakti[i].ime, kontakti[i].prezime, kontakti[i].broj, kontakti[i].email);
-    fclose(f);
+    fclose(f);//19
 }
 
 static int generirajId(void) {
@@ -45,7 +47,7 @@ static int generirajId(void) {
         if (kontakti[i].id > maxId) maxId = kontakti[i].id;
     return maxId + 1;
 }
-
+//1
 void unosKontakta(void) {
     Kontakt novi;
     novi.id = generirajId();
@@ -73,7 +75,7 @@ void pregledKontakata(void) {
     printf("\n--- Svi kontakti ---\n");
     for (size_t i = 0; i < brojKontakata; ++i)
         printf("ID: %d | Ime: %s | Prezime: %s | Broj: %s | Email: %s\n",
-               kontakti[i].id, kontakti[i].ime, kontakti[i].prezime, kontakti[i].broj, kontakti[i].email);
+            kontakti[i].id, kontakti[i].ime, kontakti[i].prezime, kontakti[i].broj, kontakti[i].email);
     pauziraj();
 }
 
@@ -126,12 +128,12 @@ int usporedbaKontakta(const void* a, const void* b) {
 
 void sortirajKontakte(void) {
     if (brojKontakata > 0) {
-        qsort(kontakti, brojKontakata, sizeof(Kontakt), usporedbaKontakta);
+        qsort(kontakti, brojKontakata, sizeof(Kontakt), usporedbaKontakta);//23,26
         printf("Kontakti sortirani.\n");
     }
     pauziraj();
 }
-
+//24
 void pretraziKontakt(void) {
     if (brojKontakata == 0) {
         printf("Nema kontakata.\n");
@@ -139,7 +141,7 @@ void pretraziKontakt(void) {
         return;
     }
 
-    sortirajKontakte(); 
+    sortirajKontakte();
 
     char trazenoIme[MAX_IME];
     char trazenoPrezime[MAX_PREZIME];
@@ -169,7 +171,7 @@ void pretraziKontakt(void) {
 
         if (match) {
             printf("ID: %d | Ime: %s | Prezime: %s | Broj: %s | Email: %s\n",
-                   kontakti[i].id, kontakti[i].ime, kontakti[i].prezime, kontakti[i].broj, kontakti[i].email);
+                kontakti[i].id, kontakti[i].ime, kontakti[i].prezime, kontakti[i].broj, kontakti[i].email);
             found = 1;
         }
     }
@@ -179,7 +181,7 @@ void pretraziKontakt(void) {
 
     pauziraj();
 }
-
+//21
 void arhivirajDatoteku(void) {
     if (rename(DATOTEKA, "imenik.txt") == 0)
         printf("Datoteka arhivirana kao 'imenik.txt'\n");
@@ -187,7 +189,7 @@ void arhivirajDatoteku(void) {
         perror("Greska kod preimenovanja");
     pauziraj();
 }
-
+//18
 void ocistiMemoriju(void) {
     if (kontakti != NULL) {
         free(kontakti);
@@ -197,6 +199,8 @@ void ocistiMemoriju(void) {
 }
 
 inline void pauziraj(void) {
-    printf("\nPritisnite Enter za nastavak...");
-    getchar(); 
+    printf("Pritisnite Enter za nastavak...");
+    while (getchar() != '\n');
+    getchar();
 }
+
