@@ -3,8 +3,8 @@
 
 int main(void) {
     int opcija;
-    ucitajIzDatoteke();
-
+    ucitajIzDatoteke();//19
+    //10
     do {
         printf("\n--- Telefonski imenik ---\n");
         printf("1. Unos kontakta\n");
@@ -18,24 +18,24 @@ int main(void) {
         printf("Odabir: ");
 
         if (scanf("%d", &opcija) != 1) {
-            while(getchar() != '\n'); 
+            while (getchar() != '\n');
             printf("Molimo unesite broj!\n");
             opcija = -1;
             continue;
         }
-        while(getchar() != '\n'); 
+        while (getchar() != '\n');
         switch (opcija) {
-            case UNOS: unosKontakta(); break;
-            case PREGLED: pregledKontakata(); break;
-            case AZURIRAJ: azurirajKontakt(); break;
-            case OBRISI: obrisiKontakt(); break;
-            case SORTIRAJ: sortirajKontakte(); break;
-            case PRETRAZI: pretraziKontakt(); break;
-            case ARHIVIRAJ: arhivirajDatoteku(); break;
-            case IZLAZ: ocistiMemoriju(); break;
-            default:
-                printf("Nepoznata opcija!\n");
-                pauziraj();
+        case UNOS: unosKontakta(); break;
+        case PREGLED: pregledKontakata(); break;
+        case AZURIRAJ: azurirajKontakt(); break;
+        case OBRISI: obrisiKontakt(); break;
+        case SORTIRAJ: sortirajKontakte(); break;
+        case PRETRAZI: pretraziKontakt(); break;
+        case ARHIVIRAJ: arhivirajDatoteku(); break;
+        case IZLAZ: ocistiMemoriju(); break;
+        default:
+            printf("Nepoznata opcija!\n");
+            pauziraj();
         }
     } while (opcija != IZLAZ);
 
